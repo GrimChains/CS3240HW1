@@ -25,7 +25,13 @@ int main(int argc, char * argv[]) {
     else {
        k = atoi(argv[1]);
        M = atoi(argv[2]);
-       name = atoi(argv[3]);
+       name = argv[3];
+       cout << "Name: " << name << endl;
     }
+    ifstream in;
+    in.open(name.c_str());
+    getline(in, name, '.');
+    cout << name << endl;
+    in.close();
 	return 0;
 }
