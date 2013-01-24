@@ -45,25 +45,24 @@ int main(int argc, char * argv[]) {
                     count++;
                 }
                 else if (count == 1) {
-                    cout << "temp: " << temp << ". " << i << endl;
                     bus->setX(atoi(temp.c_str()));
                     count++;
                 }
-                else if (count == 2) {
+                /*else if (count == 2) {
                     bus->setY(atoi(temp.c_str()));
                     count = 0;
-                }
+                }*/
+
                 temp = "";
             }
         }
-            list.push_back(bus);
-            cout << list.size() << endl;
-            for (int j = 0; j < list.size(); j++) {
-                cout << list.at(j)->getClass() << " " << list.at(j)->getX() << " " << list.at(j)->getY() << endl;
-            }
-        
+        bus->setY(atoi(temp.c_str()));
+        list.push_back(bus);
+        temp = "";
     }
-    cout << name << endl;
+    for (int j = 0; j < list.size(); j++) {
+        cout << list.at(j)->getClass() << " " << list.at(j)->getX() << " " << list.at(j)->getY() << endl;
+    }
     in.close();
 	return 0;
 }
