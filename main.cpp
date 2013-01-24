@@ -45,18 +45,13 @@ int main(int argc, char * argv[]) {
                     count++;
                 }
                 else if (count == 1) {
-                    bus->setX(atoi(temp.c_str()));
+                    bus->setX(atof(temp.c_str()));
                     count++;
                 }
-                /*else if (count == 2) {
-                    bus->setY(atoi(temp.c_str()));
-                    count = 0;
-                }*/
-
                 temp = "";
             }
         }
-        bus->setY(atoi(temp.c_str()));
+        bus->setY(atof(temp.c_str()));
         list.push_back(bus);
         temp = "";
     }
