@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <vector>
 #include <fstream>
+#include <math.h>
 #include "DataPoint.h"
+#include "VotePoint.h"
 
 using namespace std;
 
@@ -32,7 +34,7 @@ int main(int argc, char * argv[]) {
     string temp, input;
     int count;
     DataPoint * bus;
-    while (getline(in, input)) {
+    for (int itr = 0; itr < M && getline(in, input); ++itr) {
         count = 0;
         for (int i = 0; i < input.length(); i++) {
             if (input[i] != ' ') {
@@ -55,9 +57,29 @@ int main(int argc, char * argv[]) {
         list.push_back(bus);
         temp = "";
     }
+    // Print what's in the vector for a manuel sanity check
     for (int j = 0; j < list.size(); j++) {
         cout << list.at(j)->getClass() << " " << list.at(j)->getX() << " " << list.at(j)->getY() << endl;
     }
+    double x, y, avg;
+    double tmpX, tmpY;
+    vector<int> dist;
+    do {
+        avg = 0;
+        cout << "Please enter X: ";
+        cin >> x;
+        cout << "Please enter Y: ";
+        cin >> y;
+        //Generate distances
+        for (int n = 0; n < list.size(); n++) {
+            tmpX = x - list.at(n)->getX();
+            tmpX *= tmpX;
+            tmpY = y - list.at(n)->getY();
+            tmpY *= tmpY;
+            dist.push_back(pow(tmpX + tmpY, 0.5));
+        }
+        
+    } while( x != 1.0 || y != 1.0);
     in.close();
 	return 0;
 }
