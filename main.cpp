@@ -40,7 +40,7 @@ int main(int argc, char * argv[]) {
             if (input[i] != ' ') {
                 temp += input[i];
             }
-            else {
+            else if (temp !="") {
                 if (count == 0) {
                     bus = new DataPoint();
                     bus->setClass(temp);
@@ -61,15 +61,18 @@ int main(int argc, char * argv[]) {
     for (int j = 0; j < list.size(); j++) {
         cout << list.at(j)->getClass() << " " << list.at(j)->getX() << " " << list.at(j)->getY() << endl;
     }
-    double x, y, avg, small;
+    double x, y, small;
     int n,g;
     double tmpX, tmpY;
-    vector<int> dist;
+    vector<double> dist;
+    vector<double> avg;
     VotePoint * ballot;
     vector<VotePoint *> vote;
     bool flag;
     do {
-        avg = 0;
+        avg.clear();
+        vote.clear();
+        dist.clear();
         cout << "Please enter X: ";
         cin >> x;
         cout << "Please enter Y: ";
@@ -93,7 +96,7 @@ int main(int argc, char * argv[]) {
             }
             // Probably need to store the results in a vector.
             if (dist.at(small) > 0 || g == 0) {
-                cout << list.at(small)->getClass() << " " << list.at(small)->getX() << " " << list.at(small)->getY() << endl;
+                // cout << list.at(small)->getClass() << " " << list.at(small)->getX() << " " << list.at(small)->getY() << endl;
                 dist[small] *= -1;
                 flag = false;
                 // Casting our vote, or adding a new VotePoint
@@ -101,6 +104,8 @@ int main(int argc, char * argv[]) {
                     if (list.at(small)->getClass() == vote.at(n)->getClass()) {
                         flag = true;
                         vote.at(n)->vote();
+                        avg[n] += dist.at(n);
+                        cout << avg[n] << endl << vote.at(n)->getClass() << endl;
                         break;
                     }
                 }
@@ -110,12 +115,29 @@ int main(int argc, char * argv[]) {
                 else {
                     ballot = new VotePoint(list.at(small)->getClass());
                     vote.push_back(ballot);
+                    avg.push_back(dist.at(small));
+                    //cout << avg[n] << endl << vote.at(n)->getClass() << endl;
                 }
-                avg += abs(dist.at(small));
             }
-            cout << avg/M << endl;
         }
-        //Clean up dist
+        // I'm treating small as big for this loop. I know it's counter-intuitive, but it saves wasting an int
+        small = 0;
+        for (n = 1; n < vote.size(); n++) {
+            if (vote.at(small)->getVote() < vote.at(n)->getVote()) {
+                small = n;
+            }
+        }
+        cout << "The people have voted to classify ( " << x << " , " << y << " ) as " << vote.at(small)->getClass() << endl;
+        for (n = 0; n < avg.size(); n++) {
+            if (avg.at(n) > 0) {
+                cout << "vote: " << vote.at(n)->getVote() << endl << "n: " << n << endl;
+                cout << "Average distance from " << vote.at(n)->getClass() << ":\t" << (double)avg.at(n)/(double)vote.at(n)->getVote() << endl;
+            }
+            else {
+                cout << "vote: " << vote.at(n)->getVote() << endl << "N: " << n << endl;
+                cout << "Average distance from " << vote.at(n)->getClass() << ":\t" << (double)-avg.at(n)/(double)vote.at(n)->getVote() << endl;
+            }
+        }
         dist.clear();
     } while( x != 1.0 || y != 1.0);
     in.close();

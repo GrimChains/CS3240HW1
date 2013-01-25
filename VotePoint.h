@@ -7,7 +7,7 @@ class VotePoint {
         VotePoint();
         VotePoint(string in) {
             type = in;
-            num = 0;
+            num = 1;
         }
         string getClass() {
             return type;

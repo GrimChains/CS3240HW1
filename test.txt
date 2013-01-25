@@ -1,5 +1,6 @@
-classa 1 20
-classb 3 4.4.4.4.40
-classc 5 60
-classd 7 80
-clsdde 9 09
+class1 2 0
+class1 4 0
+class2 1 0
+class2 3 0
+class2 5 0
+class3 6 0
