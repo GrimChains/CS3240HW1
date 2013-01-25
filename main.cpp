@@ -61,9 +61,13 @@ int main(int argc, char * argv[]) {
     for (int j = 0; j < list.size(); j++) {
         cout << list.at(j)->getClass() << " " << list.at(j)->getX() << " " << list.at(j)->getY() << endl;
     }
-    double x, y, avg;
+    double x, y, avg, small;
+    int n,g;
     double tmpX, tmpY;
     vector<int> dist;
+    VotePoint * ballot;
+    vector<VotePoint *> vote;
+    bool flag;
     do {
         avg = 0;
         cout << "Please enter X: ";
@@ -71,14 +75,48 @@ int main(int argc, char * argv[]) {
         cout << "Please enter Y: ";
         cin >> y;
         //Generate distances
-        for (int n = 0; n < list.size(); n++) {
+        for (n = 0; n < list.size(); n++) {
             tmpX = x - list.at(n)->getX();
             tmpX *= tmpX;
             tmpY = y - list.at(n)->getY();
             tmpY *= tmpY;
             dist.push_back(pow(tmpX + tmpY, 0.5));
         }
-        
+        small = 0;
+        //Find closest guys
+        for (g = 0; g < k; g++) {
+            small = 0;
+            for (n = 0; n < dist.size(); n++) {
+                if (dist.at(small) < dist.at(n) && dist.at(n) > 0) {
+                    small = n;
+                }
+            }
+            // Probably need to store the results in a vector.
+            if (dist.at(small) > 0 || g == 0) {
+                cout << list.at(small)->getClass() << " " << list.at(small)->getX() << " " << list.at(small)->getY() << endl;
+                dist[small] *= -1;
+                flag = false;
+                // Casting our vote, or adding a new VotePoint
+                for (n = 0; n < vote.size(); n++) {
+                    if (list.at(small)->getClass() == vote.at(n)->getClass()) {
+                        flag = true;
+                        vote.at(n)->vote();
+                        break;
+                    }
+                }
+                if (flag) {
+                    flag = false;
+                }
+                else {
+                    ballot = new VotePoint(list.at(small)->getClass());
+                    vote.push_back(ballot);
+                }
+                avg += abs(dist.at(small));
+            }
+            cout << avg/M << endl;
+        }
+        //Clean up dist
+        dist.clear();
     } while( x != 1.0 || y != 1.0);
     in.close();
 	return 0;
