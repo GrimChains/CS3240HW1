@@ -57,10 +57,6 @@ int main(int argc, char * argv[]) {
         list.push_back(bus);
         temp = "";
     }
-    // Print what's in the vector for a manuel sanity check
-    /*for (int j = 0; j < list.size(); j++) {
-        cout << list.at(j)->getClass() << " " << list.at(j)->getX() << " " << list.at(j)->getY() << endl;
-    }*/
     double x, y, small;
     int n,g;
     double tmpX, tmpY;
@@ -94,7 +90,6 @@ int main(int argc, char * argv[]) {
                     small = n;
                 }
             }
-            // Probably need to store the results in a vector.
             if (dist.at(small) >= 0 || g == 0) {
                 cout << list.at(small)->getClass() << " ( " << list.at(small)->getX() << " , " << list.at(small)->getY() << " )\t Distance: " << dist.at(small) << endl;
                 dist[small] *= -1;
