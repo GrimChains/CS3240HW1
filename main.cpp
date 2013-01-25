@@ -58,9 +58,9 @@ int main(int argc, char * argv[]) {
         temp = "";
     }
     // Print what's in the vector for a manuel sanity check
-    for (int j = 0; j < list.size(); j++) {
+    /*for (int j = 0; j < list.size(); j++) {
         cout << list.at(j)->getClass() << " " << list.at(j)->getX() << " " << list.at(j)->getY() << endl;
-    }
+    }*/
     double x, y, small;
     int n,g;
     double tmpX, tmpY;
@@ -95,8 +95,8 @@ int main(int argc, char * argv[]) {
                 }
             }
             // Probably need to store the results in a vector.
-            if (dist.at(small) > 0 || g == 0) {
-                // cout << list.at(small)->getClass() << " " << list.at(small)->getX() << " " << list.at(small)->getY() << endl;
+            if (dist.at(small) >= 0 || g == 0) {
+                cout << list.at(small)->getClass() << " ( " << list.at(small)->getX() << " , " << list.at(small)->getY() << " )\t Distance: " << dist.at(small) << endl;
                 dist[small] *= -1;
                 flag = false;
                 // Casting our vote, or adding a new VotePoint
@@ -104,8 +104,7 @@ int main(int argc, char * argv[]) {
                     if (list.at(small)->getClass() == vote.at(n)->getClass()) {
                         flag = true;
                         vote.at(n)->vote();
-                        avg[n] += dist.at(n);
-                        cout << avg[n] << endl << vote.at(n)->getClass() << endl;
+                        avg[n] += dist.at(small);
                         break;
                     }
                 }
@@ -116,7 +115,6 @@ int main(int argc, char * argv[]) {
                     ballot = new VotePoint(list.at(small)->getClass());
                     vote.push_back(ballot);
                     avg.push_back(dist.at(small));
-                    //cout << avg[n] << endl << vote.at(n)->getClass() << endl;
                 }
             }
         }
@@ -129,12 +127,10 @@ int main(int argc, char * argv[]) {
         }
         cout << "The people have voted to classify ( " << x << " , " << y << " ) as " << vote.at(small)->getClass() << endl;
         for (n = 0; n < avg.size(); n++) {
-            if (avg.at(n) > 0) {
-                cout << "vote: " << vote.at(n)->getVote() << endl << "n: " << n << endl;
+            if (avg.at(n) >= 0) {
                 cout << "Average distance from " << vote.at(n)->getClass() << ":\t" << (double)avg.at(n)/(double)vote.at(n)->getVote() << endl;
             }
             else {
-                cout << "vote: " << vote.at(n)->getVote() << endl << "N: " << n << endl;
                 cout << "Average distance from " << vote.at(n)->getClass() << ":\t" << (double)-avg.at(n)/(double)vote.at(n)->getVote() << endl;
             }
         }
