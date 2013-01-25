@@ -1,3 +1,6 @@
+// Nicholas Grigorian
+// CS3240 - Homework 1
+
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
